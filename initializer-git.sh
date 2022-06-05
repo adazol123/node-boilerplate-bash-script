@@ -15,20 +15,26 @@ echo "Repository visibility?: (private/public) "
 read visibility
 
 #condition statement for the visibility of the repository (private/public)
-if [[ visibility === "private" ]]; then
+if [ $visibility == "private" ]; then
 		visible="--private"
-elif [[ visibility === "public" ]]; then
+elif [ $visibility == "public" ]; then
 		visible="--public"
 else 
+		
 		visible="--private"
 fi
 
 echo "visibility:  $visible"
 
+echo "Continue on creating repository $repository? (Y/N)"
+read query
+# check condition if user would like to continue the process y,Y or blank to proceed and others to cancel
+if [ -z $query ] || [ $query == "y" ] || [ $query == "Y" ]; then
+
 # Check if the Gihub CLI is currently installed on the machine
 if [ -x $(command -v gh) ]; then
 	# Create repository using the github CLI
-	gh repo create $repository $visible
+	gh repo create $repository $visible -l MIT -g Node
 	reposit="git@github.com:adazol123/$repository"
 
 	# Clone the repository 
@@ -36,11 +42,9 @@ if [ -x $(command -v gh) ]; then
 
 	# Check  statement once both creation and cloning of the repository was successful
 	if [ -e $repository ]; then
-		# Add inital files like README, .gitignore then add content on it
+		# Add inital files like README then add content to it
 		cd $repository
 		touch README.md && echo "$repository" >> README.md
-		touch .gitignore && echo "node_modules" >> .gitignore
-
 
 		# Add all files from working directory to staging area
 		git add .
@@ -58,8 +62,11 @@ if [ -x $(command -v gh) ]; then
 		echo "Encountered an error when creating the repository"
 	fi
 else 
-	echo "no Github CLI detected on your machine"
+	echo "No Github CLI detected on your machine"
 fi
 
 
 
+else
+	echo "Repository Initializer has been cancelled"
+fi
