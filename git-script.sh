@@ -13,7 +13,7 @@ sleep 1
 echo "Commit added successfully: $commit"
 
 # push files from origin to master repository
-git push origin master
+git push
 
 echo "Done!"
 
