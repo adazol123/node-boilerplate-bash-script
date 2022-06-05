@@ -2,7 +2,7 @@
 
 
 #initializing node 
-if [ -x "$(command -v yarn) ];
+if [ -x "$(command -v yarn)" ];
 then
 	yarn init
 
@@ -13,7 +13,7 @@ then
 	sleep 0.5
 	yarn add express discord.js mongoose
 	echo "Express,Discord,Mongoose packages successfully installed"
-elif [ -x "$(command -v npm) ];
+elif [ -x "$(command -v npm)" ];
 then
 	npm init
 	# install express, discordjs and mongoose node packages
